@@ -1,14 +1,19 @@
 import React from 'react';
 import Movie from '../Movie/Movie';
+import Grid from '@material-ui/core/Grid';
 
-class MovieList extends React.Component {
-  render() {
-    return (
-      this.props.movies.map(item => (
-        <Movie movie={item} key={item.id}></Movie>
-      ))
-    )
-  }
-}
+const MovieList = (props) => {
+  return (
+    <Grid container spacing={3}>
+        {
+          props.movies.map(item => (
+            <Grid item xs={3}>
+              <Movie movie={item} key={item.id}></Movie>
+            </Grid>
+          ))
+        }
+    </Grid>
+  )
+};
 
 export default MovieList;
