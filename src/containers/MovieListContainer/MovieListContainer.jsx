@@ -4,6 +4,7 @@ import MovieList from "../../components/MovieList/MovieList";
 import { getMovies } from "./actions/movies";
 import Container from '@material-ui/core/Container';
 import Paper from "@material-ui/core/Paper";
+import { Helmet } from "react-helmet";
 
 const mapStateToProps = state => ({
   ...state
@@ -26,6 +27,10 @@ class MovieListContainer extends React.Component {
   render() {
     return (
       <Container maxWidth="xl">
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>Movie List</title>
+        </Helmet>
         <Paper>total movies: {this.props.totals}</Paper>
         <MovieList movies={this.props.movies}/>
 
