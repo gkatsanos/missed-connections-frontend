@@ -5,6 +5,7 @@ import { getMovies } from "./actions/movies";
 import Container from '@material-ui/core/Container';
 import Paper from "@material-ui/core/Paper";
 import { Helmet } from "react-helmet";
+import Grid from "@material-ui/core/Grid";
 
 const mapStateToProps = state => ({
   ...state

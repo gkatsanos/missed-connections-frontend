@@ -4,6 +4,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Link } from "react-router-dom";
 import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
 
 const Movie = (props) => {
   return (
@@ -18,7 +19,16 @@ const Movie = (props) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Link to={`/movie/${props.movie.id}`}>routelink</Link>
+        { props.withReadMoreButton ? (
+          <Button
+            align="right"
+            variant="outlined"
+            color="primary"
+            component={Link}
+            to={`/movie/${props.movie.id}`}>
+            read more...
+          </Button> ) : null
+        }
       </CardActions>
     </Card>
   );

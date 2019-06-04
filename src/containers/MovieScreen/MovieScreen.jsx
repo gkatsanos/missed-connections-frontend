@@ -20,11 +20,12 @@ class MovieScreen extends React.Component {
             <meta charSet="utf-8"/>
             <title>{this.props.movie.title}</title>
           </Helmet>
-          <Movie movie = {this.props.movie} />
+          <Movie movie={this.props.movie} withReadMoreButton={false} />
         </div>
       )
     } else {
-      return <Typography variant="h3">Nothing here</Typography>
+      //@TODO implement a 404 not found page
+      return <Typography color="secondary" variant="h3">Nothing here</Typography>
     }
   }
 }

@@ -8,7 +8,7 @@ const MovieList = (props) => {
         {
           props.movies.map(item => (
             <Grid item xs={3}>
-              <Movie movie={item} key={item.id}></Movie>
+              <Movie movie={item} key={item.id} withReadMoreButton={true} />
             </Grid>
           ))
         }
