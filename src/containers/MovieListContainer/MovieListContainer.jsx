@@ -1,28 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MovieList from "../../components/MovieList/MovieList";
-import { getMovies } from "./actions/movies";
+import { getMovies } from "./actions/movie";
 import Container from '@material-ui/core/Container';
 import Paper from "@material-ui/core/Paper";
 import { Helmet } from "react-helmet";
-import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
 const mapStateToProps = state => ({
   ...state
 });
 
-const mapDispatchToProps = dispatch => ({
-  getMovies: () => dispatch(getMovies())
-});
+const mapDispatchToProps = {
+  getMovies
+};
 
 class MovieListContainer extends React.Component {
 
-  getMovies = (event) => {
-    this.props.getMovies();
+  handleClick = () => {
+    debugger;
+    this.props.getMovies(this.props.movie.page);
   };
 
   componentDidMount() {
-    this.getMovies();
+    this.handleClick();
   }
 
   render() {
@@ -32,8 +33,9 @@ class MovieListContainer extends React.Component {
           <meta charSet="utf-8" />
           <title>Movie List</title>
         </Helmet>
-        <Paper>total movies: {this.props.totals}</Paper>
-        <MovieList movies={this.props.movies}/>
+        <Button onClick={this.handleClick}> Fetch more </Button>
+        <Paper>total movies: {this.props.movie.total}</Paper>
+        <MovieList movies={this.props.movie.movies}/>
 
       </Container>
     )

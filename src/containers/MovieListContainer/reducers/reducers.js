@@ -1,8 +1,6 @@
 import { combineReducers } from "redux";
-import movies from './movies';
-import totals from './totals';
+import movie from './movie';
 
 export default combineReducers({
-  movies,
-  totals
+  movie,
 });

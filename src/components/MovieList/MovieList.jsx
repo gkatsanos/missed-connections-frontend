@@ -6,9 +6,9 @@ const MovieList = (props) => {
   return (
     <Grid container spacing={3}>
         {
-          props.movies.map(item => (
-            <Grid item xs={3}>
-              <Movie movie={item} key={item.id} withReadMoreButton={true} />
+          props.movies.map(movie => (
+            <Grid key={movie.id} item xs={3}>
+              <Movie movie={movie} key={movie.id} withReadMoreButton={true} />
             </Grid>
           ))
         }
