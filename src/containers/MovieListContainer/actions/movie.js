@@ -2,10 +2,11 @@ import axios from 'axios'
 import to from 'await-to-js';
 import { apiUrls } from '../../../constants';
 
-function requestMovies() {
+function requestMovies(page) {
   return {
     type: 'REQUESTED_MOVIES',
     receivedAt: Date.now(),
+    page,
   }
 }
 
@@ -29,7 +30,7 @@ export let getMovies = (page = 1) => async dispatch => {
   debugger;
   let err, response;
 
-  dispatch(requestMovies());
+  dispatch(requestMovies(page));
   [err, response] = await to(axios.get(`${apiUrls.base}/${apiUrls.theaters}`, {
     params: {
       page,
