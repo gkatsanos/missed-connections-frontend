@@ -7,8 +7,8 @@ const MovieList = (props) => {
     <Grid container spacing={3}>
         {
           props.movies.map(movie => (
-            <Grid key={movie.id} item xs={3}>
-              <Movie movie={movie} key={movie.id} withReadMoreButton={true} />
+            <Grid key={'grid_' + movie.id} item xs={3}>
+              <Movie movie={movie} withReadMoreButton={true} />
             </Grid>
           ))
         }

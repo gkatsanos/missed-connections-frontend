@@ -26,8 +26,29 @@ function throwError(err) {
   }
 }
 
+function shouldFetchMovies(state, page) {
+  if (state.movie.isFetching) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+export function getMoviesIfNeeded(page) {
+  return (dispatch, getState) => {
+    if (shouldFetchMovies(getState(), page)) {
+      return dispatch(getMovies(page));
+    }
+  }
+}
+
+export function increasePage() {
+  return {
+    type: 'INCREASED_PAGE',
+  }
+}
+
 export let getMovies = (page = 1) => async dispatch => {
-  debugger;
   let err, response;
 
   dispatch(requestMovies(page));

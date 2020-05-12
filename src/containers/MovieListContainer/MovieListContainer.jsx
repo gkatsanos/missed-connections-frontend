@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import throttle from 'lodash.throttle'
 import MovieList from "../../components/MovieList/MovieList";
-import { getMovies } from "./actions/movie";
+import { getMoviesIfNeeded, increasePage } from "./actions/movie";
 import Container from '@material-ui/core/Container';
 import { Helmet } from "react-helmet";
 
@@ -11,18 +11,18 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getMovies
+  getMoviesIfNeeded,
+  increasePage,
 };
 
 class MovieListContainer extends React.Component {
 
   fetchMovies = () => {
-    this.props.getMovies(this.props.movie.page);
+    console.log(this.props.movie.page);
+    this.props.getMoviesIfNeeded(this.props.movie.page);
   };
 
   handleScroll = () => {
-    debugger;
-    console.log('scrolled');
     let d = document.body;
     let scrollTop = window.scrollY;
     let windowHeight = window.innerHeight || document.documentElement.clientHeight;
@@ -30,14 +30,20 @@ class MovieListContainer extends React.Component {
     let scrollPercentage = (scrollTop / height);
     // if the scroll is more than 90% from the top, load more content.
     if (scrollPercentage > 0.90) {
-      this.fetchMovies();
+      // this.fetchMovies();
+      this.props.increasePage();
     }
-
   };
 
   componentDidMount() {
     this.fetchMovies();
-    window.addEventListener('scroll', throttle(this.handleScroll, 500));
+    window.addEventListener('scroll', throttle(this.handleScroll, 1000));
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.movie.page !== prevProps.movie.page) {
+      this.fetchMovies();
+    }
   }
 
   render() {
