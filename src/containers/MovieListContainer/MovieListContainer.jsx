@@ -18,11 +18,11 @@ const mapDispatchToProps = {
 class MovieListContainer extends React.Component {
 
   fetchMovies = () => {
-    console.log(this.props.movie.page);
+    console.log('component page:', this.props.movie.page);
     this.props.getMoviesIfNeeded(this.props.movie.page);
   };
 
-  handleScroll = () => {
+  handleScroll = throttle(() => {
     let d = document.body;
     let scrollTop = window.scrollY;
     let windowHeight = window.innerHeight || document.documentElement.clientHeight;
@@ -31,19 +31,27 @@ class MovieListContainer extends React.Component {
     // if the scroll is more than 90% from the top, load more content.
     if (scrollPercentage > 0.90) {
       // this.fetchMovies();
-      this.props.increasePage();
+      if (!this.props.movie.isFetching) {
+        this.props.increasePage();
+      }
     }
-  };
+  }, 1000);
 
   componentDidMount() {
-    this.fetchMovies();
-    window.addEventListener('scroll', throttle(this.handleScroll, 1000));
+    if (this.props.movie.page === 1) {
+      this.fetchMovies();
+    }
+    window.addEventListener('scroll', this.handleScroll);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.movie.page !== prevProps.movie.page) {
       this.fetchMovies();
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   render() {

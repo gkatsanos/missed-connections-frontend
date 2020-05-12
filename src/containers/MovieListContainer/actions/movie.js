@@ -27,10 +27,12 @@ function throwError(err) {
 }
 
 function shouldFetchMovies(state, page) {
-  if (state.movie.isFetching) {
+  if (!state.movie.movies.length) {
+    return true;
+  } else if (state.movie.isFetching) {
     return false;
   } else {
-    return true;
+    return state.movie.movies;
   }
 }
 
@@ -58,6 +60,7 @@ export let getMovies = (page = 1) => async dispatch => {
       api_key: '36081eca9a2ced64d616c59681881626',
     }
   }));
+  console.log('request done with page:', page);
   if (err) return dispatch(throwError(err));
   debugger;
   return dispatch(receiveMovies(response.data));// somewhere here I want to trigger another action that increases the page...?
