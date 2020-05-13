@@ -38,9 +38,6 @@ class MovieListContainer extends React.Component {
   }, 1000);
 
   componentDidMount() {
-    if (this.props.movie.page === 1) {
-      this.fetchMovies();
-    }
     window.addEventListener('scroll', this.handleScroll);
   }
 

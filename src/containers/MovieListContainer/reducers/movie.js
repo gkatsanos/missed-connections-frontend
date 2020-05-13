@@ -1,7 +1,7 @@
 const defaultState = {
   movies: [],
   total: 0,
-  page: 1,
+  page: 0,
   isFetching: false,
 };
 export default (state = defaultState, action) => {

@@ -26,6 +26,12 @@ function throwError(err) {
   }
 }
 
+export function increasePage() {
+  return {
+    type: 'INCREASED_PAGE',
+  }
+}
+
 function shouldFetchMovies(state, page) {
   if (!state.movie.movies.length) {
     return true;
@@ -35,21 +41,6 @@ function shouldFetchMovies(state, page) {
     return state.movie.movies;
   }
 }
-
-export function getMoviesIfNeeded(page) {
-  return (dispatch, getState) => {
-    if (shouldFetchMovies(getState(), page)) {
-      return dispatch(getMovies(page));
-    }
-  }
-}
-
-export function increasePage() {
-  return {
-    type: 'INCREASED_PAGE',
-  }
-}
-
 export let getMovies = (page = 1) => async dispatch => {
   let err, response;
 
@@ -62,6 +53,13 @@ export let getMovies = (page = 1) => async dispatch => {
   }));
   console.log('request done with page:', page);
   if (err) return dispatch(throwError(err));
-  debugger;
   return dispatch(receiveMovies(response.data));// somewhere here I want to trigger another action that increases the page...?
 };
+
+export function getMoviesIfNeeded(page) {
+  return (dispatch, getState) => {
+    if (shouldFetchMovies(getState(), page)) {
+      return dispatch(getMovies(page));
+    }
+  }
+}
