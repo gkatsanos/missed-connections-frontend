@@ -1,11 +1,16 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import reducers from './containers/MovieListContainer/reducers/reducers';
+import { configureStore } from "@reduxjs/toolkit";
 
-export default function configureStore() {
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  return createStore(
-    reducers,
-    composeEnhancers(applyMiddleware(thunk))
-  );
+import rootReducer from "./rootReducer";
+
+const store = configureStore({
+  reducer: rootReducer,
+});
+
+if (process.env.NODE_ENV === "development" && module.hot) {
+  module.hot.accept("./rootReducer", () => {
+    const newRootReducer = require("./rootReducer").default;
+    store.replaceReducer(newRootReducer);
+  });
 }
+
+export default store;

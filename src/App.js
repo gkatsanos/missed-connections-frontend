@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import MovieListContainer from './containers/MovieListContainer/MovieListContainer';
-import './App.css';
-import MovieScreen from "./containers/MovieScreen/MovieScreen";
+import MessageListContainer from "./containers/MessageListContainer/MessageListContainer";
+import "./App.css";
+import MessageContainer from "./containers/MessageContainer/MessageContainer";
 import Container from "@material-ui/core/Container";
 
 function App() {
@@ -11,8 +11,8 @@ function App() {
     <Router>
       <div className="App">
         <Container maxWidth="xl">
-          <Route exact path="/" component={MovieListContainer} />
-          <Route path="/movie/:id" component={MovieScreen} />
+          <Route exact path="/" component={MessageListContainer} />
+          <Route path="/movie/:id" component={MessageContainer} />
         </Container>
       </div>
     </Router>
