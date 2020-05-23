@@ -1,6 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import messageReducer from "./containers/MessageListContainer/reducers/message";
-import userReducer from "./containers/MessageListContainer/reducers/user";
+import messageReducer from "./message/messageReducers";
+import userReducer from "./user/userReducers";
 
 const rootReducer = combineReducers({
   message: messageReducer,
