@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import MessageListContainer from "./message/MessageListContainer";
+import MessageList from "./message/MessageList";
 import LoginForm from "./user/Login/Form";
 import "./App.css";
 import MessageContainer from "./message/MessageContainer";
@@ -16,7 +16,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <div className="App">
           <Container>
-            <Route exact path="/" component={MessageListContainer} />
+            <Route exact path="/" component={MessageList} />
             <Route exact path="/login" component={LoginForm} />
             <Route path="/movie/:id" component={MessageContainer} />
           </Container>
