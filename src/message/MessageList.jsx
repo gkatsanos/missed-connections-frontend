@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import throttle from "lodash.throttle";
-import { getMessagesIfNeeded, increasePage } from "./messageActions";
+import { getMessagesIfNeeded } from "./messageActions";
 import Container from "@material-ui/core/Container";
 import { Helmet } from "react-helmet";
 import Message from "./Message";
@@ -13,13 +13,12 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getMessagesIfNeeded,
-  increasePage,
 };
 
 class MessageList extends React.Component {
-  fetchMessage = () => {
+  fetchMessage = async () => {
     console.log("component page:", this.props.message.page);
-    this.props.getMessagesIfNeeded(this.props.message.page);
+    await this.props.getMessagesIfNeeded(this.props.message.page);
   };
 
   handleScroll = throttle(() => {
@@ -34,14 +33,14 @@ class MessageList extends React.Component {
     if (scrollPercentage > 0.9) {
       if (
         !this.props.message.isFetching &&
-        this.props.message.page < this.props.message.totalPages
+        this.props.message.page <= this.props.message.totalPages
       ) {
-        this.props.increasePage();
+        this.props.fetchMessage();
       }
     }
   }, 1000);
 
-  // this function content could potentially be abstracted with parts of
+  // @TODO this function content could potentially be abstracted with parts of
   // handleScroll
   calculateInitialheight() {
     // get height of content
@@ -49,24 +48,18 @@ class MessageList extends React.Component {
     const bodyHeight = d.offsetHeight;
     let windowHeight =
       window.innerHeight || document.documentElement.clientHeight;
-    if (windowHeight - bodyHeight > 200) {
-      this.props.increasePage();
+    if (
+      windowHeight - bodyHeight > 200 &&
+      !this.props.message.isFetching &&
+      this.props.message.page <= this.props.message.totalPages
+    ) {
+      this.fetchMessage();
     }
   }
 
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
-    this.fetchMessage();
-    this.calculateInitialheight();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.message.page !== prevProps.message.page &&
-      this.props.user.isAuthenticated
-    ) {
-      this.fetchMessage();
-    }
+    this.fetchMessage().then(() => this.calculateInitialheight());
   }
 
   componentWillUnmount() {

@@ -32,7 +32,7 @@ function loginFailed(response) {
   };
 }
 
-export function increasePage() {
+function increasePage() {
   return {
     type: "INCREASED_PAGE",
   };
@@ -57,7 +57,8 @@ let getMessages = (page = 1) => async (dispatch, getState) => {
   if (err) {
     return dispatch(handleError(err));
   }
-  return dispatch(receiveMessages(response));
+  dispatch(receiveMessages(response));
+  return dispatch(increasePage());
 };
 
 export function getMessagesIfNeeded(page) {
