@@ -6,7 +6,7 @@ axios.defaults.baseURL =
     : "http://localhost:3001/";
 
 const fetchItems = (page, token) =>
-  axios(`message/list/page/${page}`, {
+  axios(`message/list/${page}`, {
     withCredentials: true,
   })
     .then((response) => response.data)
