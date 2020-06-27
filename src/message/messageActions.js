@@ -1,5 +1,5 @@
 import to from "await-to-js";
-import api from "../api";
+import { fetchItems } from "../api";
 
 function requestMessages(page) {
   return {
@@ -52,7 +52,7 @@ let getMessages = (page = 1) => async (dispatch, getState) => {
   let err, response;
 
   dispatch(requestMessages(page));
-  [err, response] = await to(api.fetchItems(page, getState().user.accessToken));
+  [err, response] = await to(fetchItems(page, getState().user.accessToken));
   console.log("request done with page:", page);
   if (err) {
     return dispatch(handleError(err));

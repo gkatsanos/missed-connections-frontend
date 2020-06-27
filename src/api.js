@@ -5,7 +5,7 @@ axios.defaults.baseURL =
     ? "https://missed-connections-server.herokuapp.com/"
     : "http://localhost:3001/";
 
-const fetchItems = (page, token) =>
+export const fetchItems = (page, token) =>
   axios(`message/list/${page}`, {
     withCredentials: true,
   })
@@ -14,7 +14,7 @@ const fetchItems = (page, token) =>
       throw err.response;
     });
 
-const registerUser = (data) =>
+export const registerUser = (data) =>
   axios
     .post("auth/register", data)
     .then((response) => response.data)
@@ -22,7 +22,7 @@ const registerUser = (data) =>
       throw err.response;
     });
 
-const login = (data) =>
+export const login = (data) =>
   axios
     .post("auth/login", data, { withCredentials: true })
     .then((response) => response.data)
@@ -30,12 +30,16 @@ const login = (data) =>
       throw err.response;
     });
 
-const authenticate = (activationId) =>
+export const authenticate = (activationId) =>
   axios(`auth/${activationId}`).then((response) => response.data);
 
-export default {
-  fetchItems,
-  registerUser,
-  login,
-  authenticate,
-};
+export const reverseGeocode = (lat, lon) =>
+  axios({
+    baseURL: "https://eu1.locationiq.com/",
+    url: "v1/reverse.php",
+    params: {
+      lat,
+      lon,
+      key: process.env.GEOCODE_KEY,
+    },
+  }).then((response) => response.data);

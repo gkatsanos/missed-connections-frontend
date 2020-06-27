@@ -1,9 +1,9 @@
 import to from "await-to-js";
-import api from "../api";
+import { login } from "../api";
 
 export let loginRequest = (data) => async (dispatch, getState) => {
   let err, response;
-  [err, response] = await to(api.login(data));
+  [err, response] = await to(login(data));
   if (err) return dispatch(loginFailed(err));
   return dispatch(loginSucceed(response));
 };

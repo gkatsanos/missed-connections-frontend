@@ -2,17 +2,29 @@ import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
+import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { Link as RouterLink } from "react-router-dom";
 import CardActions from "@material-ui/core/CardActions";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
+import TimeAgo from "react-timeago";
+import { reverseGeocode } from "../api";
 
 const Message = (props) => {
   const card = (
     <Card raised={true}>
-      <CardHeader title={props.message.title} />
+      <CardHeader
+        avatar={
+          <Avatar aria-label="recipe">
+            {props.message.user.firstName[0]}
+            {props.message.user.lastName[0]}
+          </Avatar>
+        }
+        title={props.message.user.username}
+        subheader={<TimeAgo date={props.message.seenDate} />}
+      />
       <CardContent>
         <Typography variant="body2" component="p">
           {props.message.body}
