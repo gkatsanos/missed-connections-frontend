@@ -32,14 +32,3 @@ export const login = (data) =>
 
 export const authenticate = (activationId) =>
   axios(`auth/${activationId}`).then((response) => response.data);
-
-export const reverseGeocode = (lat, lon) =>
-  axios({
-    baseURL: "https://eu1.locationiq.com/",
-    url: "v1/reverse.php",
-    params: {
-      lat,
-      lon,
-      key: process.env.GEOCODE_KEY,
-    },
-  }).then((response) => response.data);

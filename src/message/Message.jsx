@@ -10,7 +10,6 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
 import TimeAgo from "react-timeago";
-import { reverseGeocode } from "../api";
 
 const Message = (props) => {
   const card = (
@@ -31,6 +30,7 @@ const Message = (props) => {
         </Typography>
       </CardContent>
       <CardActions>
+        {props.message.location.geocoded}
         <IconButton aria-label="Add to favorites">
           <FavoriteIcon />
         </IconButton>
