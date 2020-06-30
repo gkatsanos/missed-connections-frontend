@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import MessageList from "./message/MessageList";
 import LoginForm from "./user/Login/Form";
 import "./App.css";
-import MessageContainer from "./message/MessageContainer";
+import MessageDetail from "./message/MessageDetail";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme } from "@material-ui/core/styles";
@@ -26,7 +26,7 @@ function App() {
                 <Route exact path="/" component={MessageList} />
                 <Route path="/messages" component={MessageList} />
                 <Route path="/login" component={LoginForm} />
-                <Route path="/message/:id" component={MessageContainer} />
+                <Route path="/message/:id" component={MessageDetail} />
               </Switch>
             )}
           </Container>

@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 const selectMessages = (state) => state.message.all;
 
-const getParamId = (state, props) => Number(props.match.params.id);
+const getParamId = (state, props) => props.match.params.id;
 
 export const selectMessageById = createSelector(
   [selectMessages, getParamId],
