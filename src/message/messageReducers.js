@@ -17,6 +17,11 @@ export default (state = defaultState, action) => {
         ...state,
         isFetching: true,
       };
+    case "REQUESTED_MESSAGE":
+      return {
+        ...state,
+        isFetching: true,
+      };
     case "RECEIVED_MESSAGES":
       return {
         ...state,
@@ -24,6 +29,12 @@ export default (state = defaultState, action) => {
         totalItems: action.response.totalDocs,
         isFetching: false,
         totalPages: action.response.totalPages,
+      };
+    case "RECEIVED_MESSAGE":
+      return {
+        ...state,
+        all: [...state.all, action.response],
+        isFetching: false,
       };
     default:
       return state;

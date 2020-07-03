@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { connect, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Message from "./Message";
-import Typography from "@material-ui/core/Typography";
 import { Helmet } from "react-helmet";
 import { selectMessageById } from "./messageSelectors";
+import { getMessage } from "./messageActions";
 
 // const mapStateToProps = (state, props) => {
 //   return {
@@ -12,10 +12,14 @@ import { selectMessageById } from "./messageSelectors";
 // };
 
 const MessageDetail = (props) => {
-  // const message = useSelector((state) =>
-  //   state.message.all.find((message) => message._id === props.match.params.id)
-  // );
+  const dispatch = useDispatch();
   const message = useSelector((state) => selectMessageById(state, props));
+  useEffect(() => {
+    if (!message) {
+      dispatch(getMessage(props.match.params.id));
+    }
+  }, [message, props.match.params.id, dispatch]);
+
   if (message) {
     return (
       <div>
@@ -27,12 +31,7 @@ const MessageDetail = (props) => {
       </div>
     );
   } else {
-    //@TODO fetch message item from API or redirect to 404
-    return (
-      <Typography color="secondary" variant="h3">
-        Nothing here
-      </Typography>
-    );
+    return <div>no message</div>;
   }
 };
 

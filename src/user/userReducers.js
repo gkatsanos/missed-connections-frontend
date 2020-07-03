@@ -21,6 +21,14 @@ export default (state = defaultState, action) => {
         email: action.response.user.email,
         createdAt: action.response.user.createdAt,
         isAuthenticated: true,
+        refreshToken: action.response.token.refreshToken,
+        expiresIn: action.response.token.expiresIn,
+      };
+    case "REFRESHED_TOKEN":
+      return {
+        ...state,
+        refreshToken: action.response.token.refreshToken,
+        expiresIn: action.response.token.expiresIn,
       };
     case "LOGIN_FAILED":
       return {

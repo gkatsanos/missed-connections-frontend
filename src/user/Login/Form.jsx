@@ -13,7 +13,7 @@ import { loginRequest } from "../userActions";
 
 const LoginForm = (props) => {
   const [state, setState] = useState({
-    username: "",
+    email: "",
     password: "",
     showPassword: false,
   });
@@ -52,7 +52,7 @@ const LoginForm = (props) => {
             fullWidth
             autoComplete="email"
             name="email"
-            label="username"
+            label="email"
             variant="outlined"
             onChange={handleInputChange}
           />

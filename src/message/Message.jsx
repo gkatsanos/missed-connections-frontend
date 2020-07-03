@@ -6,8 +6,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { Link as RouterLink } from "react-router-dom";
 import CardActions from "@material-ui/core/CardActions";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import IconButton from "@material-ui/core/IconButton";
 import Link from "@material-ui/core/Link";
 import TimeAgo from "react-timeago";
 
@@ -29,12 +27,7 @@ const Message = (props) => {
           {props.message.body}
         </Typography>
       </CardContent>
-      <CardActions>
-        {props.message.location.geocoded}
-        <IconButton aria-label="Add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-      </CardActions>
+      <CardActions>{props.message.location.geocoded}</CardActions>
     </Card>
   );
   return props.withReadMoreButton ? (
