@@ -5,12 +5,6 @@ import { Helmet } from "react-helmet";
 import { selectMessageById } from "./messageSelectors";
 import { getMessage } from "./messageActions";
 
-// const mapStateToProps = (state, props) => {
-//   return {
-//     message: selectMessageById(state, props),
-//   };
-// };
-
 const MessageDetail = (props) => {
   const dispatch = useDispatch();
   const message = useSelector((state) => selectMessageById(state, props));

@@ -69,10 +69,10 @@ function increasePage() {
 }
 
 function shouldFetchMessages(state, page) {
-  if (!state.message.all.length) {
-    return true;
-  } else if (state.message.isFetching) {
+  if (state.message.isFetching) {
     return false;
+  } else if (!state.message.all.length) {
+    return true;
   } else {
     return state.message.all;
   }
