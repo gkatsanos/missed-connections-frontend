@@ -19,7 +19,8 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "react-timeago": "4.4.0",
-    "moment": "2.27.0"
+    "moment": "2.27.0",
+    "redux-persist": "6.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

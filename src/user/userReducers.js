@@ -1,11 +1,10 @@
 const defaultState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
   createdAt: "",
   email: "",
   firstName: "",
   id: "",
   lastName: "",
-  accessToken: "",
   expiresIn: "",
   refreshToken: "",
   tokenType: "",
@@ -15,7 +14,6 @@ export default (state = defaultState, action) => {
     case "LOGIN_SUCCEEDED":
       return {
         ...state,
-        accessToken: action.response.token.accessToken,
         firstName: action.response.user.firstName,
         lastName: action.response.user.lastName,
         email: action.response.user.email,
@@ -23,6 +21,10 @@ export default (state = defaultState, action) => {
         isAuthenticated: true,
         refreshToken: action.response.token.refreshToken,
         expiresIn: action.response.token.expiresIn,
+      };
+    case "LOGOUT_SUCCEEDED":
+      return {
+        ...defaultState,
       };
     case "REFRESHED_TOKEN":
       return {

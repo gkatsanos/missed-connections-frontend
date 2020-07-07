@@ -40,9 +40,7 @@ export const login = (data) =>
       throw err.response;
     });
 
-export const refresh = () => {
-  const email = localStorage.getItem("missed_connections_email");
-  const refreshToken = localStorage.getItem("refreshToken");
+export const refresh = (refreshToken, email) => {
   return axios
     .post("auth/refresh", { refreshToken, email }, { withCredentials: true })
     .then((response) => response.data)
@@ -51,20 +49,18 @@ export const refresh = () => {
     });
 };
 
-export const isTokenGoingToExpireSoon = () => {
-  const loginTimeExpiration = localStorage.getItem("loginTimeExpiration");
-  if (loginTimeExpiration) {
-    if (moment().isAfter(moment(loginTimeExpiration).subtract(3, "minutes"))) {
+export const isTokenGoingToExpireSoon = (expiresIn) => {
+  if (expiresIn) {
+    if (moment().isAfter(moment(expiresIn).subtract(3, "minutes"))) {
       return true;
     }
   }
   return false;
 };
 
-export const isTokenExpired = () => {
-  const loginTimeExpiration = localStorage.getItem("loginTimeExpiration");
-  if (loginTimeExpiration) {
-    if (moment().isAfter(moment(loginTimeExpiration))) {
+export const isTokenExpired = (expiresIn) => {
+  if (expiresIn) {
+    if (moment().isAfter(moment(expiresIn))) {
       return true;
     }
   }

@@ -1,4 +1,5 @@
 import to from "await-to-js";
+
 import {
   fetchItems,
   fetchItem,
@@ -80,7 +81,8 @@ function shouldFetchMessages(state, page) {
 
 export function getMessage(id) {
   return async (dispatch, getState) => {
-    if (isTokenGoingToExpireSoon()) {
+    const expiresIn = getState().user.expiresIn;
+    if (isTokenGoingToExpireSoon(expiresIn) && !isTokenExpired(expiresIn)) {
       dispatch(refreshToken());
     }
     let err, response;
@@ -95,7 +97,8 @@ export function getMessage(id) {
 
 function getMessages(page = 1) {
   return async (dispatch, getState) => {
-    if (isTokenGoingToExpireSoon() && !isTokenExpired()) {
+    const expiresIn = getState().user.expiresIn;
+    if (isTokenGoingToExpireSoon(expiresIn) && !isTokenExpired(expiresIn)) {
       dispatch(refreshToken());
     }
     let err, response;
@@ -109,15 +112,15 @@ function getMessages(page = 1) {
   };
 }
 
-function refreshToken(user) {
+function refreshToken() {
   return async (dispatch, getState) => {
     let err, response;
-    [err, response] = await to(refresh(user));
+    [err, response] = await to(
+      refresh(getState().user.refreshToken, getState().user.email)
+    );
     if (err) {
       return dispatch(handleError(err));
     }
-    localStorage.setItem("loginTimeExpiration", response.token.expiresIn);
-    localStorage.setItem("refreshToken", response.token.refreshToken);
     return dispatch(refreshedToken(response));
   };
 }

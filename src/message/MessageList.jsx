@@ -21,13 +21,13 @@ const MessageList = (props) => {
       paddingBottom: theme.spacing(4),
     },
   }));
+  const classes = useStyles();
 
   const message = useSelector((state) => selectMessages(state));
   const page = useSelector((state) => selectPage(state));
   const totalPages = useSelector((state) => selectTotalNumberPages(state));
   const isFetching = useSelector((state) => selectIsFetching(state));
 
-  const classes = useStyles();
   const dispatch = useDispatch();
   const fetchMessage = useCallback(() => {
     console.log("component page:", page);
@@ -42,12 +42,12 @@ const MessageList = (props) => {
       window.innerHeight || document.documentElement.clientHeight;
     let height = d.offsetHeight - windowHeight;
     let scrollPercentage = scrollTop / height;
-    if (scrollPercentage > 0.8) {
+    if (scrollPercentage > 0.5) {
       if (!isFetching && page <= totalPages) {
         fetchMessage();
       }
     }
-  }, 1000);
+  }, 500);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -62,26 +62,16 @@ const MessageList = (props) => {
     }
   }, [fetchMessage, message]);
 
-  useEffect(() => {
-    const d = document.body;
-    const bodyHeight = d.offsetHeight;
-    let windowHeight =
-      window.innerHeight || document.documentElement.clientHeight;
-    if (windowHeight - bodyHeight > 200 && !isFetching && page <= totalPages) {
-      fetchMessage();
-    }
-  }, [isFetching, fetchMessage, page, totalPages]);
-
   if (message.length) {
     return (
-      <Container maxWidth="xl" className={classes.container}>
+      <Container maxWidth="lg" className={classes.container}>
         <Helmet>
           <meta charSet="utf-8" />
           <title>Message List</title>
         </Helmet>
         <Grid container spacing={3}>
           {message.map((message) => (
-            <Grid key={"grid_" + message._id} item sm={6} md={3}>
+            <Grid key={"grid_" + message._id} item sm={6} md={4}>
               <Message message={message} withReadMoreButton={true} />
             </Grid>
           ))}

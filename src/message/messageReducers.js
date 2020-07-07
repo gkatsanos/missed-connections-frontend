@@ -41,6 +41,10 @@ export default (state = defaultState, action) => {
         ...state,
         isFetching: false,
       };
+    case "LOGOUT_SUCCEEDED":
+      return {
+        ...defaultState,
+      };
     default:
       return state;
   }
