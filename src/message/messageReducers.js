@@ -3,7 +3,7 @@ const defaultState = {
   totalItems: 0,
   page: 1,
   isFetching: false,
-  totalPages: 0,
+  totalPages: 1,
 };
 export default (state = defaultState, action) => {
   switch (action.type) {
@@ -33,7 +33,10 @@ export default (state = defaultState, action) => {
     case "RECEIVED_MESSAGE":
       return {
         ...state,
-        all: [...state.all, action.response],
+        all: [
+          ...state.all,
+          action.response,
+        ] /* @TODO bug when browsing list/detail page duplicate item added */,
         isFetching: false,
       };
     case "LOGIN_FAILED":

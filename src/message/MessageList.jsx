@@ -3,12 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import throttle from "lodash.throttle";
 import { makeStyles } from "@material-ui/core/styles";
 import { getMessagesIfNeeded } from "./messageActions";
-import {
-  selectMessages,
-  selectPage,
-  selectTotalNumberPages,
-  selectIsFetching,
-} from "./messageSelectors";
+import { selectMessages } from "./messageSelectors";
 import Container from "@material-ui/core/Container";
 import { Helmet } from "react-helmet";
 import Message from "./Message";
@@ -24,18 +19,13 @@ const MessageList = (props) => {
   const classes = useStyles();
 
   const message = useSelector((state) => selectMessages(state));
-  const page = useSelector((state) => selectPage(state));
-  const totalPages = useSelector((state) => selectTotalNumberPages(state));
-  const isFetching = useSelector((state) => selectIsFetching(state));
 
   const dispatch = useDispatch();
   const fetchMessage = useCallback(() => {
-    console.log("component page:", page);
-    return dispatch(getMessagesIfNeeded(page));
-  }, [dispatch, page]);
+    return dispatch(getMessagesIfNeeded());
+  }, [dispatch]);
 
   const handleScroll = throttle(() => {
-    console.log("scrolled");
     let d = document.body;
     let scrollTop = window.scrollY;
     let windowHeight =
@@ -43,9 +33,7 @@ const MessageList = (props) => {
     let height = d.offsetHeight - windowHeight;
     let scrollPercentage = scrollTop / height;
     if (scrollPercentage > 0.5) {
-      if (!isFetching && page <= totalPages) {
-        fetchMessage();
-      }
+      fetchMessage();
     }
   }, 500);
 
@@ -57,10 +45,8 @@ const MessageList = (props) => {
   }, [handleScroll]);
 
   useEffect(() => {
-    if (!message.length) {
-      fetchMessage();
-    }
-  }, [fetchMessage, message]);
+    fetchMessage();
+  }, [fetchMessage]);
 
   if (message.length) {
     return (

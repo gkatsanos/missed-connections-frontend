@@ -10,7 +10,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { useSelector, useDispatch } from "react-redux";
-import { selectFirstName } from "../user/userSelectors";
+import { selectFirstName, selectAuthenticated } from "../user/userSelectors";
 import { logout } from "../user/userActions";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const dispatch = useDispatch();
   const firstName = useSelector((state) => selectFirstName(state));
+  const isAuthenticated = useSelector((state) => selectAuthenticated(state));
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -40,6 +41,7 @@ const Header = () => {
   };
 
   const handleLogout = () => {
+    setAnchorEl(null);
     dispatch(logout());
   };
 
@@ -58,25 +60,34 @@ const Header = () => {
           <Typography variant="h6" className={classes.title}>
             Missed Connections
           </Typography>
-          <Button
-            color="inherit"
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleClick}
-            startIcon={<AccountCircleIcon />}
-          >
-            {firstName}
-          </Button>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-          </Menu>
+
+          {firstName ? (
+            <Button
+              color="inherit"
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={handleClick}
+              startIcon={<AccountCircleIcon />}
+            >
+              {firstName}
+            </Button>
+          ) : (
+            ""
+          )}
+          {isAuthenticated ? (
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          ) : (
+            ""
+          )}
         </Toolbar>
       </AppBar>
     </div>

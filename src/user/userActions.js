@@ -5,7 +5,7 @@ import { persistor } from "../store";
 export let loginRequest = (data) => async (dispatch, getState) => {
   let err, response;
   [err, response] = await to(login(data));
-  if (err) return dispatch(loginFailed(err));
+  if (err) return dispatch(loginFailed(err.data));
   return dispatch(loginSucceed(response));
 };
 
@@ -29,8 +29,8 @@ export let logout = () => async (dispatch) => {
   try {
     dispatch(logoutSucceed());
     await persistor.purge();
-  } catch {
-    dispatch(logoutFailed());
+  } catch (err) {
+    dispatch(logoutFailed(err));
   }
 };
 

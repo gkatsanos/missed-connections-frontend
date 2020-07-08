@@ -7,6 +7,7 @@ import rootReducer from "./rootReducer";
 const persistConfig = {
   key: "missed-connections",
   storage,
+  blacklist: ["message"], // navigation will not be persisted
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -15,7 +16,7 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware({
     serializableCheck: {
-      ignoredActions: ["persist/PERSIST"],
+      ignoredActions: ["persist/PERSIST", "persist/PURGE"],
     },
   }),
 });

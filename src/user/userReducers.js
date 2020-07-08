@@ -8,6 +8,7 @@ const defaultState = {
   expiresIn: "",
   refreshToken: "",
   tokenType: "",
+  err: null,
 };
 export default (state = defaultState, action) => {
   switch (action.type) {
@@ -36,6 +37,7 @@ export default (state = defaultState, action) => {
       return {
         ...state,
         isAuthenticated: false,
+        err: action.err,
       };
     default:
       return state;

@@ -51,15 +51,15 @@ function refreshedToken(response) {
 function handleError(err) {
   return (dispatch, getState) => {
     if (err.status === 401) {
-      return dispatch(loginFailed());
+      return dispatch(loginFailed(err.data));
     }
   };
 }
 
-function loginFailed(response) {
+function loginFailed(err) {
   return {
     type: "LOGIN_FAILED",
-    response,
+    err,
   };
 }
 
@@ -69,13 +69,13 @@ function increasePage() {
   };
 }
 
-function shouldFetchMessages(state, page) {
-  if (state.message.isFetching) {
-    return false;
-  } else if (!state.message.all.length) {
+function shouldFetchMessages(state) {
+  if (state.message.all.length === 0 && !state.message.isFetching) {
     return true;
+  } else if (state.message.page > state.message.totalPages) {
+    return false;
   } else {
-    return state.message.all;
+    return true;
   }
 }
 
@@ -95,15 +95,15 @@ export function getMessage(id) {
   };
 }
 
-function getMessages(page = 1) {
+function getMessages() {
   return async (dispatch, getState) => {
     const expiresIn = getState().user.expiresIn;
     if (isTokenGoingToExpireSoon(expiresIn) && !isTokenExpired(expiresIn)) {
       dispatch(refreshToken());
     }
     let err, response;
-    dispatch(requestMessages(page));
-    [err, response] = await to(fetchItems(page));
+    dispatch(requestMessages(getState().message.page));
+    [err, response] = await to(fetchItems(getState().message.page));
     if (err) {
       return dispatch(handleError(err));
     }
@@ -125,10 +125,10 @@ function refreshToken() {
   };
 }
 
-export function getMessagesIfNeeded(page) {
+export function getMessagesIfNeeded() {
   return (dispatch, getState) => {
-    if (shouldFetchMessages(getState(), page)) {
-      return dispatch(getMessages(page));
+    if (shouldFetchMessages(getState())) {
+      return dispatch(getMessages());
     }
   };
 }
