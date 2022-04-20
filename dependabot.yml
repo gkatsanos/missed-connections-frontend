@@ -1,0 +1,9 @@
+# Specify location of manifest files for each package manager
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 4
