@@ -10,6 +10,7 @@ const defaultState = {
   tokenType: "",
   err: null,
 };
+
 export default (state = defaultState, action) => {
   switch (action.type) {
     case "LOGIN_SUCCEEDED":

@@ -2,10 +2,10 @@ import to from "await-to-js";
 import { login } from "../api";
 import { persistor } from "../store";
 
-export let loginRequest = (data) => async (dispatch, getState) => {
+export let loginRequest = (data) => async (dispatch) => {
   let err, response;
   [err, response] = await to(login(data));
-  if (err) return dispatch(loginFailed(err.data));
+  if (err) return dispatch(loginFailed(err.message));
   return dispatch(loginSucceed(response));
 };
 

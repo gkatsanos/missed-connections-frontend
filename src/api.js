@@ -37,7 +37,7 @@ export const login = (data) =>
     .post("auth/login", data, { withCredentials: true })
     .then((response) => response.data)
     .catch((err) => {
-      throw err.response;
+      throw err;
     });
 
 export const refresh = (refreshToken, email) => {
